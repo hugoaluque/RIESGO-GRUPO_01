@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/L.Control.Locate.min.css">
+    <link rel="stylesheet" href="css/qgis2web.css">
+    <link rel="stylesheet" href="css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="css/leaflet-measure.css">
+    <title>EVAR-Grupo 01</title>
+    <link rel="icon" href="./img/logo.ico" />
+    <style>
+        html,
+        body,
+        #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <title></title>
+</head>
+
+<body>
+    <div id="map">
+    </div>
+    <script src="js/qgis2web_expressions.js"></script>
+    <script src="js/leaflet.js"></script>
+    <script src="js/L.Control.Locate.min.js"></script>
+    <script src="js/leaflet.rotatedMarker.js"></script>
+    <script src="js/leaflet.pattern.js"></script>
+    <script src="js/leaflet-hash.js"></script>
+    <script src="js/Autolinker.min.js"></script>
+    <script src="js/rbush.min.js"></script>
+    <script src="js/labelgun.min.js"></script>
+    <script src="js/labels.js"></script>
+    <script src="js/leaflet-measure.js"></script>
+    <script src="data/Geologia_1.js"></script>
+    <script src="data/Pendiente_2.js"></script>
+    <script src="data/Geomorfologia_3.js"></script>
+    <script src="data/Susceptibilidad_4.js"></script>
+    <script src="data/Peligro_5.js"></script>
+    <script>
+        var map = L.map('map', {
+            zoomControl: true,
+            maxZoom: 28,
+            minZoom: 1
+        }).fitBounds([
+            [-15.3143938666985, -70.04820315967098],
+            [-15.269820389332521, -69.98439839817836]
+        ]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix('<a href="https://hugoaluque.github.io/Hector-Hugo-Anamuro-Luque" target="_blank">Hugo Añamuro</a>');
+        var autolinker = new Autolinker({
+            truncate: {
+                length: 30,
+                location: 'smart'
+            }
+        });
+        L.control.locate({
+            locateOptions: {
+                maxZoom: 19
+            }
+        }).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+            .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+            .className += ' fas fa-ruler';
+        var bounds_group = new L.featureGroup([]);
+
+        function setBounds() {}
+        map.createPane('pane_GoogleSatelliteHybrid_0');
+        map.getPane('pane_GoogleSatelliteHybrid_0').style.zIndex = 400;
+        var layer_GoogleSatelliteHybrid_0 = L.tileLayer('https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+            pane: 'pane_GoogleSatelliteHybrid_0',
+            opacity: 1.0,
+            attribution: '',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_GoogleSatelliteHybrid_0;
+        map.addLayer(layer_GoogleSatelliteHybrid_0);
+
+        function pop_Geologia_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lito_Unid'] !== null ? autolinker.link(feature.properties['Lito_Unid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pp_geol'] !== null ? autolinker.link(feature.properties['Pp_geol'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pd_geol'] !== null ? autolinker.link(feature.properties['Pd_geol'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {
+                maxHeight: 400
+            });
+        }
+
+        function style_Geologia_1_0(feature) {
+            switch (String(feature.properties['Lito_Unid'])) {
+                case 'Deposito Aluvial (1) // Q':
+                    return {
+                        pane: 'pane_Geologia_1',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(217,117,108,1.0)',
+                        interactive: false,
+                    }
+                    break;
+                case 'Deposito Fluvial // Qh-fl':
+                    return {
+                        pane: 'pane_Geologia_1',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(210,90,200,1.0)',
+                        interactive: false,
+                    }
+                    break;
+                case 'Deposito Fluvio-Aluvial /':
+                    return {
+                        pane: 'pane_Geologia_1',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(198,205,116,1.0)',
+                        interactive: false,
+                    }
+                    break;
+                case 'Deposito Lacustre // Qh-l':
+                    return {
+                        pane: 'pane_Geologia_1',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(70,239,84,1.0)',
+                        interactive: false,
+                    }
+                    break;
+                case 'Laguna // Laguna':
+                    return {
+                        pane: 'pane_Geologia_1',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(90,203,213,1.0)',
+                        interactive: false,
+                    }
+                    break;
+            }
+        }
+        map.createPane('pane_Geologia_1');
+        map.getPane('pane_Geologia_1').style.zIndex = 401;
+        map.getPane('pane_Geologia_1').style['mix-blend-mode'] = 'normal';
+        var layer_Geologia_1 = new L.geoJson(json_Geologia_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Geologia_1',
+            layerName: 'layer_Geologia_1',
+            pane: 'pane_Geologia_1',
+            onEachFeature: pop_Geologia_1,
+            style: style_Geologia_1_0,
+        });
+        bounds_group.addLayer(layer_Geologia_1);
+
+        function pop_Pendiente_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['DN'] !== null ? autolinker.link(feature.properties['DN'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['pendiente'] !== null ? autolinker.link(feature.properties['pendiente'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pp_Pend'] !== null ? autolinker.link(feature.properties['Pp_Pend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pd_Pend'] !== null ? autolinker.link(feature.properties['Pd_Pend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {
+                maxHeight: 400
+            });
+        }
+
+        function style_Pendiente_2_0(feature) {
+            switch (String(feature.properties['pendiente'])) {
+                case '<5º':
+                    return {
+                        pane: 'pane_Pendiente_2',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(239,16,57,1.0)',
+                        interactive: false,
+                    }
+                    break;
+                case '5º - 10º':
+                    return {
+                        pane: 'pane_Pendiente_2',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(255,70,33,1.0)',
+                        interactive: false,
+                    }
+                    break;
+                case '10º - 15º':
+                    return {
+                        pane: 'pane_Pendiente_2',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(255,231,45,1.0)',
+                        interactive: false,
+                    }
+                    break;
+                case '15º - 20º':
+                    return {
+                        pane: 'pane_Pendiente_2',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(120,162,41,1.0)',
+                        interactive: false,
+                    }
+                    break;
+                case '>20º':
+                    return {
+                        pane: 'pane_Pendiente_2',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(9,94,3,1.0)',
+                        interactive: false,
+                    }
+                    break;
+            }
+        }
+        map.createPane('pane_Pendiente_2');
+        map.getPane('pane_Pendiente_2').style.zIndex = 402;
+        map.getPane('pane_Pendiente_2').style['mix-blend-mode'] = 'normal';
+        var layer_Pendiente_2 = new L.geoJson(json_Pendiente_2, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Pendiente_2',
+            layerName: 'layer_Pendiente_2',
+            pane: 'pane_Pendiente_2',
+            onEachFeature: pop_Pendiente_2,
+            style: style_Pendiente_2_0,
+        });
+        bounds_group.addLayer(layer_Pendiente_2);
+
+        function pop_Geomorfologia_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Uni_geom'] !== null ? autolinker.link(feature.properties['Uni_geom'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pp_geom'] !== null ? autolinker.link(feature.properties['Pp_geom'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pd_Geom'] !== null ? autolinker.link(feature.properties['Pd_Geom'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {
+                maxHeight: 400
+            });
+        }
+
+        function style_Geomorfologia_3_0(feature) {
+            switch (String(feature.properties['Uni_geom'])) {
+                case 'Lecho fluvial // L-flv':
+                    return {
+                        pane: 'pane_Geomorfologia_3',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(112,110,110,1.0)',
+                        interactive: false,
+                    }
+                    break;
+                case 'Llanura aluvial // Lln-al':
+                    return {
+                        pane: 'pane_Geomorfologia_3',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(192,164,99,1.0)',
+                        interactive: false,
+                    }
+                    break;
+                case 'Llanura inundable // Lln-i':
+                    return {
+                        pane: 'pane_Geomorfologia_3',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(137,50,28,1.0)',
+                        interactive: false,
+                    }
+                    break;
+                case 'Terraza Fluvi-Aluvial // T-fa':
+                    return {
+                        pane: 'pane_Geomorfologia_3',
+                        opacity: 1,
+                        color: 'rgba(35,35,35,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(231,169,118,1.0)',
+                        interactive: false,
+                    }
+                    break;
+            }
+        }
+        map.createPane('pane_Geomorfologia_3');
+        map.getPane('pane_Geomorfologia_3').style.zIndex = 403;
+        map.getPane('pane_Geomorfologia_3').style['mix-blend-mode'] = 'normal';
+        var layer_Geomorfologia_3 = new L.geoJson(json_Geomorfologia_3, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Geomorfologia_3',
+            layerName: 'layer_Geomorfologia_3',
+            pane: 'pane_Geomorfologia_3',
+            onEachFeature: pop_Geomorfologia_3,
+            style: style_Geomorfologia_3_0,
+        });
+        bounds_group.addLayer(layer_Geomorfologia_3);
+
+        function pop_Susceptibilidad_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['dis_fagua'] !== null ? autolinker.link(feature.properties['dis_fagua'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pd_Dist_fagua'] !== null ? autolinker.link(feature.properties['Pd_Dist_fagua'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Uni_geom'] !== null ? autolinker.link(feature.properties['Uni_geom'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pp_geom'] !== null ? autolinker.link(feature.properties['Pp_geom'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pd_Geom'] !== null ? autolinker.link(feature.properties['Pd_Geom'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['pendiente'] !== null ? autolinker.link(feature.properties['pendiente'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pp_Pend'] !== null ? autolinker.link(feature.properties['Pp_Pend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pd_Pend'] !== null ? autolinker.link(feature.properties['Pd_Pend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lito_Unid'] !== null ? autolinker.link(feature.properties['Lito_Unid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pp_geol'] !== null ? autolinker.link(feature.properties['Pp_geol'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pd_geol'] !== null ? autolinker.link(feature.properties['Pd_geol'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['V_Susc'] !== null ? autolinker.link(feature.properties['V_Susc'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['N_Susc'] !== null ? autolinker.link(feature.properties['N_Susc'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['V_Peligro'] !== null ? autolinker.link(feature.properties['V_Peligro'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['N_Peligro'] !== null ? autolinker.link(feature.properties['N_Peligro'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {
+                maxHeight: 400
+            });
+        }
+
+        function style_Susceptibilidad_4_0(feature) {
+            switch (String(feature.properties['N_Susc'])) {
+                case 'MUY ALTA':
+                    return {
+                        pane: 'pane_Susceptibilidad_4',
+                        opacity: 1,
+                        color: 'rgba(255,0,4,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(255,0,4,1.0)',
+                        interactive: false,
+                    }
+                    break;
+                case 'ALTA':
+                    return {
+                        pane: 'pane_Susceptibilidad_4',
+                        opacity: 1,
+                        color: 'rgba(255,166,64,1.0)',
+                        dashArray: '',
+                        lineCap: 'butt',
+                        lineJoin: 'miter',
+                        weight: 1.0,
+                        fill: true,
+                        fillOpacity: 1,
+                        fillColor: 'rgba(255,166,64,1.0)',
+                        interactive: false,
+                    }
+                    break;
+            }
+        }
+        map.createPane('pane_Susceptibilidad_4');
+        map.getPane('pane_Susceptibilidad_4').style.zIndex = 404;
+        map.getPane('pane_Susceptibilidad_4').style['mix-blend-mode'] = 'normal';
+        var layer_Susceptibilidad_4 = new L.geoJson(json_Susceptibilidad_4, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Susceptibilidad_4',
+            layerName: 'layer_Susceptibilidad_4',
+            pane: 'pane_Susceptibilidad_4',
+            onEachFeature: pop_Susceptibilidad_4,
+            style: style_Susceptibilidad_4_0,
+        });
+        bounds_group.addLayer(layer_Susceptibilidad_4);
+
+        function pop_Peligro_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['fid'] !== null ? autolinker.link(feature.properties['fid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['dis_fagua'] !== null ? autolinker.link(feature.properties['dis_fagua'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pd_Dist_fagua'] !== null ? autolinker.link(feature.properties['Pd_Dist_fagua'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Uni_geom'] !== null ? autolinker.link(feature.properties['Uni_geom'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pp_geom'] !== null ? autolinker.link(feature.properties['Pp_geom'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pd_Geom'] !== null ? autolinker.link(feature.properties['Pd_Geom'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['pendiente'] !== null ? autolinker.link(feature.properties['pendiente'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pp_Pend'] !== null ? autolinker.link(feature.properties['Pp_Pend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pd_Pend'] !== null ? autolinker.link(feature.properties['Pd_Pend'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Lito_Unid'] !== null ? autolinker.link(feature.properties['Lito_Unid'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pp_geol'] !== null ? autolinker.link(feature.properties['Pp_geol'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Pd_geol'] !== null ? autolinker.link(feature.properties['Pd_geol'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['V_Susc'] !== null ? autolinker.link(feature.properties['V_Susc'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['N_Susc'] !== null ? autolinker.link(feature.properties['N_Susc'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['V_Peligro'] !== null ? autolinker.link(feature.properties['V_Peligro'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['N_Peligro'] !== null ? autolinker.link(feature.properties['N_Peligro'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {
+                maxHeight: 400
+            });
+        }
+
+        function style_Peligro_5_0(feature) {
+            var context = {
+                feature: feature,
+                variables: {}
+            };
+            // Start of if blocks and style check logic
+            if (exp_Peligro_5rule0_eval_expression(context)) {
+                return {
+                    pane: 'pane_Peligro_5',
+                    opacity: 1,
+                    color: 'rgba(255,0,4,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 4.0,
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(255,0,4,1.0)',
+                    interactive: false,
+                };
+            } else if (exp_Peligro_5rule1_eval_expression(context)) {
+                return {
+                    pane: 'pane_Peligro_5',
+                    opacity: 1,
+                    color: 'rgba(255,166,64,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 4.0,
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(255,166,64,1.0)',
+                    interactive: false,
+                };
+            } else if (exp_Peligro_5rule2_eval_expression(context)) {
+                return {
+                    pane: 'pane_Peligro_5',
+                    opacity: 1,
+                    color: 'rgba(255,251,40,1.0)',
+                    dashArray: '',
+                    lineCap: 'butt',
+                    lineJoin: 'miter',
+                    weight: 4.0,
+                    fill: true,
+                    fillOpacity: 1,
+                    fillColor: 'rgba(255,251,40,1.0)',
+                    interactive: false,
+                };
+            } else {
+                return {
+                    fill: false,
+                    stroke: false
+                };
+            }
+        }
+        map.createPane('pane_Peligro_5');
+        map.getPane('pane_Peligro_5').style.zIndex = 405;
+        map.getPane('pane_Peligro_5').style['mix-blend-mode'] = 'normal';
+        var layer_Peligro_5 = new L.geoJson(json_Peligro_5, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Peligro_5',
+            layerName: 'layer_Peligro_5',
+            pane: 'pane_Peligro_5',
+            onEachFeature: pop_Peligro_5,
+            style: style_Peligro_5_0,
+        });
+        bounds_group.addLayer(layer_Peligro_5);
+        var baseMaps = {};
+        L.control.layers(baseMaps, {
+            'Peligro<br /><table><tr><td style="text-align: center;"><img src="legend/Peligro_5_MUYALTO0.png" /></td><td>MUY ALTO</td></tr><tr><td style="text-align: center;"><img src="legend/Peligro_5_ALTO1.png" /></td><td>ALTO</td></tr><tr><td style="text-align: center;"><img src="legend/Peligro_5_MEDIO2.png" /></td><td>MEDIO</td></tr></table>': layer_Peligro_5,
+            'Susceptibilidad<br /><table><tr><td style="text-align: center;"><img src="legend/Susceptibilidad_4_MUYALTA0.png" /></td><td>MUY ALTA</td></tr><tr><td style="text-align: center;"><img src="legend/Susceptibilidad_4_ALTA1.png" /></td><td>ALTA</td></tr></table>': layer_Susceptibilidad_4,
+            'Geomorfologia<br /><table><tr><td style="text-align: center;"><img src="legend/Geomorfologia_3_LechofluvialLflv0.png" /></td><td>Lecho fluvial // L-flv</td></tr><tr><td style="text-align: center;"><img src="legend/Geomorfologia_3_LlanuraaluvialLlnal1.png" /></td><td>Llanura aluvial // Lln-al</td></tr><tr><td style="text-align: center;"><img src="legend/Geomorfologia_3_LlanurainundableLlni2.png" /></td><td>Llanura inundable // Lln-i</td></tr><tr><td style="text-align: center;"><img src="legend/Geomorfologia_3_TerrazaFluviAluvialTfa3.png" /></td><td>Terraza Fluvi-Aluvial // T-fa</td></tr></table>': layer_Geomorfologia_3,
+            'Pendiente<br /><table><tr><td style="text-align: center;"><img src="legend/Pendiente_2_MUYBAJA0.png" /></td><td>MUY BAJA</td></tr><tr><td style="text-align: center;"><img src="legend/Pendiente_2_BAJA1.png" /></td><td>BAJA</td></tr><tr><td style="text-align: center;"><img src="legend/Pendiente_2_MEDIA2.png" /></td><td>MEDIA</td></tr><tr><td style="text-align: center;"><img src="legend/Pendiente_2_FUERTE3.png" /></td><td>FUERTE</td></tr><tr><td style="text-align: center;"><img src="legend/Pendiente_2_MUYFUERTE4.png" /></td><td>MUY FUERTE</td></tr></table>': layer_Pendiente_2,
+            'Geologia<br /><table><tr><td style="text-align: center;"><img src="legend/Geologia_1_DepositoAluvial1Q0.png" /></td><td>Deposito Aluvial (1) // Q</td></tr><tr><td style="text-align: center;"><img src="legend/Geologia_1_DepositoFluvialQhfl1.png" /></td><td>Deposito Fluvial // Qh-fl</td></tr><tr><td style="text-align: center;"><img src="legend/Geologia_1_DepositoFluvioAluvial2.png" /></td><td>Deposito Fluvio-Aluvial /</td></tr><tr><td style="text-align: center;"><img src="legend/Geologia_1_DepositoLacustreQhl3.png" /></td><td>Deposito Lacustre // Qh-l</td></tr><tr><td style="text-align: center;"><img src="legend/Geologia_1_LagunaLaguna4.png" /></td><td>Laguna // Laguna</td></tr></table>': layer_Geologia_1,
+            "Google Satellite Hybrid": layer_GoogleSatelliteHybrid_0,
+        }, {
+            collapsed: false
+        }).addTo(map);
+        setBounds();
+        var i = 0;
+        layer_Geologia_1.eachLayer(function(layer) {
+            var context = {
+                feature: layer.feature,
+                variables: {}
+            };
+            layer.bindTooltip((exp_label_Geologia_1_eval_expression(context) !== null ? String('<div style="color: #323232; font-size: 10pt; font-family: \'Arial\', sans-serif;">' + exp_label_Geologia_1_eval_expression(context)) + '</div>' : ''), {
+                permanent: true,
+                offset: [-0, -16],
+                className: 'css_Geologia_1'
+            });
+            labels.push(layer);
+            totalMarkers += 1;
+            layer.added = true;
+            addLabel(layer, i);
+            i++;
+        });
+        resetLabels([layer_Geologia_1, layer_Geomorfologia_3]);
+        map.on("zoomend", function() {
+            resetLabels([layer_Geologia_1, layer_Geomorfologia_3]);
+        });
+        map.on("layeradd", function() {
+            resetLabels([layer_Geologia_1, layer_Geomorfologia_3]);
+        });
+        map.on("layerremove", function() {
+            resetLabels([layer_Geologia_1, layer_Geomorfologia_3]);
+        });
+    </script>
+</body>
+
+</html>
