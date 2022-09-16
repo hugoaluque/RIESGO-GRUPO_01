@@ -90,7 +90,7 @@
         function pop_NivelesdePeligro_2(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2"><strong>N_Peligro</strong><br />' + (feature.properties['N_Peligro'] !== null ? autolinker.link(feature.properties['N_Peligro'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Nivel de Peligro</strong><br />' + (feature.properties['N_Peligro'] !== null ? autolinker.link(feature.properties['N_Peligro'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {
@@ -164,7 +164,7 @@
         function pop_NivelesdeVulnerabilidad_3(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2"><strong>N_VULN</strong><br />' + (feature.properties['N_VULN'] !== null ? autolinker.link(feature.properties['N_VULN'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Nivel de Vulnerabilidad</strong><br />' + (feature.properties['N_VULN'] !== null ? autolinker.link(feature.properties['N_VULN'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {
@@ -253,7 +253,7 @@
         function pop_NivelesdeRiesgo_4(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2"><strong>N_Riesgo</strong><br />' + (feature.properties['N_Riesgo'] !== null ? autolinker.link(feature.properties['N_Riesgo'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Nivel de Riesgo</strong><br />' + (feature.properties['N_Riesgo'] !== null ? autolinker.link(feature.properties['N_Riesgo'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {
