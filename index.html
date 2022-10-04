@@ -8,8 +8,10 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/L.Control.Locate.min.css">
     <link rel="stylesheet" href="css/qgis2web.css">
     <link rel="stylesheet" href="css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="css/leaflet-measure.css">
     <style>
         html,
         body,
@@ -28,6 +30,7 @@
     </div>
     <script src="js/qgis2web_expressions.js"></script>
     <script src="js/leaflet.js"></script>
+    <script src="js/L.Control.Locate.min.js"></script>
     <script src="js/leaflet.rotatedMarker.js"></script>
     <script src="js/leaflet.pattern.js"></script>
     <script src="js/leaflet-hash.js"></script>
@@ -35,6 +38,7 @@
     <script src="js/rbush.min.js"></script>
     <script src="js/labelgun.min.js"></script>
     <script src="js/labels.js"></script>
+    <script src="js/leaflet-measure.js"></script>
     <script src="data/NivelesdePeligro_2.js"></script>
     <script src="data/NivelesdeVulnerabilidad_3.js"></script>
     <script src="data/NivelesdeRiesgo_4.js"></script>
@@ -44,12 +48,9 @@
             maxZoom: 28,
             minZoom: 1
         }).fitBounds([
-            [-15.298642963881187, -70.02662559763768],
-            [-15.287515847019717, -70.01087286140039]
+            [-15.29493068613899, -70.02244625278523],
+            [-15.288328449100808, -70.0148162775671]
         ]);
-
-        //*****************  ATRIBUIONES DE MAPAS Y FUENTES DE DATOS*******************************//	
-
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix(' Grupo 01 - Inundación Fluvial por Desborde del Río Ramis en la Localidad de Samán -- <a  style = "font-size: 10px;" href="https://hugoaluque.github.io/Hector-Hugo-Anamuro-Luque/"target="blank"> By HugoAñamuro</a> ');
         var autolinker = new Autolinker({
@@ -58,6 +59,23 @@
                 location: 'smart'
             }
         });
+        L.control.locate({
+            locateOptions: {
+                maxZoom: 19
+            }
+        }).addTo(map);
+        var measureControl = new L.Control.Measure({
+            position: 'topleft',
+            primaryLengthUnit: 'meters',
+            secondaryLengthUnit: 'kilometers',
+            primaryAreaUnit: 'sqmeters',
+            secondaryAreaUnit: 'hectares'
+        });
+        measureControl.addTo(map);
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+            .innerHTML = '';
+        document.getElementsByClassName('leaflet-control-measure-toggle')[0]
+            .className += ' fas fa-ruler';
         var bounds_group = new L.featureGroup([]);
 
         function setBounds() {}
@@ -90,7 +108,7 @@
         function pop_NivelesdePeligro_2(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2"><strong>Nivel de Peligro</strong><br />' + (feature.properties['N_Peligro'] !== null ? autolinker.link(feature.properties['N_Peligro'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Nivel de Peligro:</strong><br />' + (feature.properties['N_Peligro'] !== null ? autolinker.link(feature.properties['N_Peligro'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {
@@ -164,7 +182,7 @@
         function pop_NivelesdeVulnerabilidad_3(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2"><strong>Nivel de Vulnerabilidad</strong><br />' + (feature.properties['N_VULN'] !== null ? autolinker.link(feature.properties['N_VULN'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Nivel de Vulnerabilidad:</strong><br />' + (feature.properties['N_Vuln'] !== null ? autolinker.link(feature.properties['N_Vuln'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {
@@ -173,7 +191,7 @@
         }
 
         function style_NivelesdeVulnerabilidad_3_0(feature) {
-            switch (String(feature.properties['N_VULN'])) {
+            switch (String(feature.properties['N_Vuln'])) {
                 case 'MUY ALTA':
                     return {
                         pane: 'pane_NivelesdeVulnerabilidad_3',
@@ -185,7 +203,7 @@
                         weight: 1.0,
                         fill: true,
                         fillOpacity: 1,
-                        fillColor: 'rgba(255,35,35,1.0)',
+                        fillColor: 'rgba(255,0,4,1.0)',
                         interactive: true,
                     }
                     break;
@@ -208,7 +226,7 @@
                     return {
                         pane: 'pane_NivelesdeVulnerabilidad_3',
                         opacity: 1,
-                        color: 'rgba(0,0,0,1.0)',
+                        color: 'rgba(35,35,35,1.0)',
                         dashArray: '',
                         lineCap: 'butt',
                         lineJoin: 'miter',
@@ -230,7 +248,7 @@
                         weight: 1.0,
                         fill: true,
                         fillOpacity: 1,
-                        fillColor: 'rgba(101,123,13,1.0)',
+                        fillColor: 'rgba(31,116,12,1.0)',
                         interactive: true,
                     }
                     break;
@@ -253,7 +271,7 @@
         function pop_NivelesdeRiesgo_4(feature, layer) {
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2"><strong>Nivel de Riesgo</strong><br />' + (feature.properties['N_Riesgo'] !== null ? autolinker.link(feature.properties['N_Riesgo'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Nivel de Riesgo:</strong><br />' + (feature.properties['N_Riesgo'] !== null ? autolinker.link(feature.properties['N_Riesgo'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {
@@ -310,7 +328,7 @@
         bounds_group.addLayer(layer_NivelesdeRiesgo_4);
         var baseMaps = {};
         L.control.layers(baseMaps, {
-            'Niveles de Riesgo<br /><table><tr> <td style="text-align: center;"> <img src="legend/NivelesdeRiesgo_4_ALTO0.png" /></td><td> ALTO</td></tr><tr><td style="text-align: center;"><img src="legend/NivelesdeRiesgo_4_MEDIO1.png" /></td><td>MEDIO</td></tr></table>': layer_NivelesdeRiesgo_4,
+            'Niveles de Riesgo<br /><table><tr><td style="text-align: center;"><img src="legend/NivelesdeRiesgo_4_ALTO0.png" /></td><td>ALTO</td></tr><tr><td style="text-align: center;"><img src="legend/NivelesdeRiesgo_4_MEDIO1.png" /></td><td>MEDIO</td></tr></table>': layer_NivelesdeRiesgo_4,
             'Niveles de Vulnerabilidad<br /><table><tr><td style="text-align: center;"><img src="legend/NivelesdeVulnerabilidad_3_MUYALTA0.png" /></td><td>MUY ALTA</td></tr><tr><td style="text-align: center;"><img src="legend/NivelesdeVulnerabilidad_3_ALTA1.png" /></td><td>ALTA</td></tr><tr><td style="text-align: center;"><img src="legend/NivelesdeVulnerabilidad_3_MEDIA2.png" /></td><td>MEDIA</td></tr><tr><td style="text-align: center;"><img src="legend/NivelesdeVulnerabilidad_3_BAJA3.png" /></td><td>BAJA</td></tr></table>': layer_NivelesdeVulnerabilidad_3,
             'Niveles de Peligro<br /><table><tr><td style="text-align: center;"><img src="legend/NivelesdePeligro_2_MUYALTO0.png" /></td><td>MUY ALTO</td></tr><tr><td style="text-align: center;"><img src="legend/NivelesdePeligro_2_ALTO1.png" /></td><td>ALTO</td></tr><tr><td style="text-align: center;"><img src="legend/NivelesdePeligro_2_MEDIO2.png" /></td><td>MEDIO</td></tr></table>': layer_NivelesdePeligro_2,
             "OpenStreetMap": layer_OpenStreetMap_1,
